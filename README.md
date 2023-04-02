@@ -8,8 +8,8 @@
 
 ### Main screen
 
-![image](https://user-images.githubusercontent.com/92797788/229356032-cfe96f82-7455-48a5-945d-f587dc839a33.png)
+![image](https://github.com/nxhawk/pong-game-mediapipe/blob/master/img/main.png)
 
 ### Game Over
 
-![image](https://user-images.githubusercontent.com/92797788/229355939-50392c85-2863-4218-9790-24b8488589ec.png)
+![image](https://github.com/nxhawk/pong-game-mediapipe/blob/master/img/over.png)
