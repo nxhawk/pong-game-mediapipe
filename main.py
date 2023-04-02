@@ -1,3 +1,6 @@
+# main file
+# terminal run project: py main.py
+
 from hand import handDetector
 import cv2
 from constrants import *
