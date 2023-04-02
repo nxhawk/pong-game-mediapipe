@@ -23,10 +23,8 @@ imgControl = cv2.imread(urlControl, cv2.IMREAD_UNCHANGED)
 
 detector = handDetector()  # hand detector from hand module
 
-h1, _, _ = imgBat1.shape
-h2, _, _ = imgBat1.shape
-y_bat1 = Screen_Height // 2 - h1
-y_bat2 = Screen_Height // 2 - h2
+y_bat1 = Screen_Height // 2 - imgBat1.shape[0]
+y_bat2 = Screen_Height // 2 - imgBat2.shape[0]
 
 
 def _getPos(posY: int, h1: int) -> int:
@@ -148,6 +146,7 @@ while True:
         while True:  # wait press s to continue
             if cv2.waitKey(1) & 0xFF == ord('s'):
                 break
+
 # Release resources
 cap.release()
 cv2.destroyAllWindows()
