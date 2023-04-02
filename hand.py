@@ -4,6 +4,9 @@ Hand Module
 
 import cv2
 import mediapipe as mp
+from constrants import Screen_Width, GRAY, BLUR_GREEN, BLUR_RED
+
+leftDot = Screen_Width // 2
 
 
 class handDetector():
@@ -31,17 +34,32 @@ class handDetector():
                                                self.mpHands.HAND_CONNECTIONS)
         return img
 
-    def findPosition(self, img, handNo=0, draw=True) -> list:
-        lmList = []
+    def findPosition(self, img, draw=True) -> list:
+        leftList = []
+        rightList = []
+        isLeft = True
         if self.results.multi_hand_landmarks:
-            myHand = self.results.multi_hand_landmarks[handNo]
-            for id, lm in enumerate(myHand.landmark):
-                h, w, c = img.shape
-                cx, cy = int(lm.x * w), int(lm.y * h)
-                lmList.append([id, cx, cy])
-                if draw:
-                    cv2.circle(img, (cx, cy), 10, (255, 128, 0), cv2.FILLED)
-                    cv2.putText(img, str(id), (cx, cy),
-                                cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
+            for myHand in self.results.multi_hand_landmarks:
+                for id, lm in enumerate(myHand.landmark):
+                    h, w, _ = img.shape
+                    cx, cy = int(lm.x * w), int(lm.y * h)
+                    if int(id) == 0 and cx < leftDot:
+                        isLeft = True
+                    elif int(id) == 0:
+                        isLeft = False
 
-        return lmList
+                    if isLeft:
+                        leftList.append([id, cx, cy])
+                    else:
+                        rightList.append([id, cx, cy])
+                    if draw and isLeft:
+                        cv2.circle(img, (cx, cy), 10,
+                                   BLUR_GREEN, cv2.FILLED)
+                        cv2.putText(img, str(id), (cx, cy),
+                                    cv2.FONT_HERSHEY_PLAIN, 2, GRAY, 3)
+                    else:
+                        cv2.circle(img, (cx, cy), 10,
+                                   BLUR_RED, cv2.FILLED)
+                        cv2.putText(img, str(id), (cx, cy),
+                                    cv2.FONT_HERSHEY_PLAIN, 2, GRAY, 3)
+        return leftList, rightList
